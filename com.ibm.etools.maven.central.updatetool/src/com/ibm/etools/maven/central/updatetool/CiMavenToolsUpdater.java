@@ -38,9 +38,9 @@ public class CiMavenToolsUpdater {
 	public static final String LIBERTY_SPIS_FOLDER = "liberty-spis";
 
 	// User input values
-	public static String ciMavenToolsFolder = "/Users/rajiv/git/ci.maven.tools";
-	public static String newVersion = "17.0.0.4";
-	public static String date = "20-Dec-2017";
+	public static String ciMavenToolsFolder = "/Users/j2k/gitGradle/ci.maven.tools";
+	public static String newVersion = "18.0.0.3";
+	public static String date = "14-Sep-2018";
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, XmlPullParserException {
 		
