@@ -39,8 +39,8 @@ public class CiMavenToolsUpdater {
 
 	// User input values
 	public static String ciMavenToolsFolder = "/Users/j2k/gitGradle/ci.maven.tools";
-	public static String newVersion = "18.0.0.4";
-	public static String date = "11-Dec-2018";
+	public static String newVersion = "19.0.0.9";
+	public static String date = "11-Sep-2019";
 	
 	public static void main(String[] args) throws FileNotFoundException, IOException, XmlPullParserException {
 		
