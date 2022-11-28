@@ -90,7 +90,6 @@ public class CiMavenToolsUpdater {
 			 */ 
 			addLatestDependenciesByGroup(model, group, date);
 			
-			//TODO if group = api addLatestDependenciesByGroup(model, "io.openliberty", date); else if spi addLatestDependenciesByGroup
 			if (group.compareToIgnoreCase("com.ibm.websphere.appserver.api") == 0)
 			{
 				addLatestDependenciesByGroup(model, "io.openliberty.api", date);
