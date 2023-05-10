@@ -39,8 +39,8 @@ public class CiMavenToolsUpdater {
 
 	// User input values
 	public static String ciMavenToolsFolder = "/Users/billydawson/Documents/GitHub/libertyGit/ci.maven.tools";
-	public static String newVersion = "22.0.0.11";
-	public static String date = "20-Nov-2022";
+	public static String newVersion = "23.0.0.3";
+	public static String date = "26-Apr-2023";
 	
 	public static void main(String[] args) throws Exception {
 		
