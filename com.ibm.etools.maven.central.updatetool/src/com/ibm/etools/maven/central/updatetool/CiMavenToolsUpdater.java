@@ -38,29 +38,35 @@ public class CiMavenToolsUpdater {
 	public static final String LIBERTY_SPIS_FOLDER = "liberty-spis";
 
 	// User input values
-	public static String ciMavenToolsFolder = "/Users/j2k/gitGradle/ci.maven.tools";
-	public static String newVersion = "19.0.0.9";
-	public static String date = "11-Sep-2019";
+	public static String ciMavenToolsFolder = "/Users/billydawson/Documents/GitHub/libertyGit/ci.maven.tools";
+	public static String newVersion = "22.0.0.11";
+	public static String date = "20-Nov-2022";
 	
-	public static void main(String[] args) throws FileNotFoundException, IOException, XmlPullParserException {
+	public static void main(String[] args) throws Exception {
 		
 		CiMavenToolsUpdater mtu = new CiMavenToolsUpdater();
 		
 		String apiPOMPath = ciMavenToolsFolder + "/targets/" + LIBERTY_APIS_FOLDER + "/pom.xml";
 		String spiPOMPath = ciMavenToolsFolder + "/targets/" + LIBERTY_SPIS_FOLDER + "/pom.xml";
 		
+		// TODO removeAllDepdencies(model); move model up here too apiModel spiModel with each file. pass model instead of pomPath. and call updatePomFile * 4
+		
 		// Update APIs pom
 		mtu.updatePomFile(apiPOMPath, "com.ibm.websphere.appserver.api", newVersion, date);
+		//TODO updatePomFile io.openliberty etc
+		//mtu.updatePomFile(apiPOMPath, "io.openliberty.api", newVersion, date);
 		
 		// Update SPIs pom
 		mtu.updatePomFile(spiPOMPath, "com.ibm.websphere.appserver.spi", newVersion, date);
+		//TODO updatePomFile io.openliberty etc
+		//mtu.updatePomFile(spiPOMPath, "io.openliberty.spi", newVersion, date);
 		
 		System.out.println("\nThe version in the following files need to be updated manually:");
 		System.out.println("targets/pom.xml");
 		System.out.println("targets/liberty-target/pom.xml");
 	}
 	
-	public void updatePomFile(String pomPath, String group, String newVersion, String date) throws FileNotFoundException, IOException, XmlPullParserException {
+	public void updatePomFile(String pomPath, String group, String newVersion, String date) throws Exception {
 		MavenXpp3Reader reader = new MavenXpp3Reader();
 		File file = new File(pomPath);
 		Model model = reader.read(new FileReader(file));
@@ -83,6 +89,15 @@ public class CiMavenToolsUpdater {
 			 * to be added to the file manually.
 			 */ 
 			addLatestDependenciesByGroup(model, group, date);
+			
+			if (group.compareToIgnoreCase("com.ibm.websphere.appserver.api") == 0)
+			{
+				addLatestDependenciesByGroup(model, "io.openliberty.api", date);
+			}
+			else if (group.compareToIgnoreCase("com.ibm.websphere.appserver.spi") == 0)
+			{
+				addLatestDependenciesByGroup(model, "io.openliberty.spi", date);
+			}
 			
 			MavenXpp3Writer writer = new MavenXpp3Writer();
 			
@@ -109,17 +124,21 @@ public class CiMavenToolsUpdater {
 		}
 	}
 
-	private void addLatestDependenciesByGroup(Model model, String group, String date) throws IOException{
+	private void addLatestDependenciesByGroup(Model model, String group, String date) throws Exception{
 		
 		HttpURLConnection httpConnection = null;
 		try{
 			// Read previous release POM file
-			String urlStr = "http://search.maven.org/solrsearch/select?q=g:%22" + group + "%22&rows=999&wt=json";
+			String urlStr = "https://search.maven.org/solrsearch/select?q=g:%22" + group + "%22&rows=200&wt=json";
 			URL url = new URL(urlStr);
 			httpConnection = (HttpURLConnection) url.openConnection();
 			JsonReader reader = Json.createReader(httpConnection.getInputStream());
 			JsonArray arr = reader.readObject().getJsonObject("response").getJsonArray("docs");
-			System.out.println("Searching for artifacts in group: " + group + " with timestamp " + date);
+			
+			if (arr.size() >200)
+			{
+				throw new Exception("Array size exceeds 200 and max rows visible is 200. Pagination will need to be implemented to support greater than 200 items.");
+			}
 			
 			// Add dependencies in reverse order so that they will be in alphabetical order in the pom file
 			for(int i=arr.size()-1; i >= 0 ; i--){
