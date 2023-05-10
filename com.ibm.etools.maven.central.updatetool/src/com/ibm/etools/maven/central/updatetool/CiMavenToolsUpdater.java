@@ -38,7 +38,7 @@ public class CiMavenToolsUpdater {
 	public static final String LIBERTY_SPIS_FOLDER = "liberty-spis";
 
 	// User input values
-	public static String ciMavenToolsFolder = "/Users/billydawson/Documents/WDT/ci.maven.tools";
+	public static String ciMavenToolsFolder = "/Users/billydawson/Documents/GitHub/libertyGit/ci.maven.tools";
 	public static String newVersion = "22.0.0.11";
 	public static String date = "20-Nov-2022";
 	
