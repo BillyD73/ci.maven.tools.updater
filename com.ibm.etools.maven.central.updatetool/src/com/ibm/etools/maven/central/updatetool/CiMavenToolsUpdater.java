@@ -38,9 +38,9 @@ public class CiMavenToolsUpdater {
 	public static final String LIBERTY_SPIS_FOLDER = "liberty-spis";
 
 	// User input values
-	public static String ciMavenToolsFolder = "/Users/billydawson/Documents/GitHub/libertyGit/ci.maven.tools";
-	public static String newVersion = "22.0.0.11";
-	public static String date = "20-Nov-2022";
+	public static String ciMavenToolsFolder = "/Users/billydawson/GitHub/ci.maven.tools";
+	public static String newVersion = "25.0.0.6";
+	public static String date = "16-Jun-2025";
 	
 	public static void main(String[] args) throws Exception {
 		
@@ -129,6 +129,7 @@ public class CiMavenToolsUpdater {
 		HttpURLConnection httpConnection = null;
 		try{
 			// Read previous release POM file
+			//String urlStr = "https://search.maven.org/solrsearch/select?q=g:%22" + group + "%22&rows=200&wt=json";
 			String urlStr = "https://search.maven.org/solrsearch/select?q=g:%22" + group + "%22&rows=200&wt=json";
 			URL url = new URL(urlStr);
 			httpConnection = (HttpURLConnection) url.openConnection();
