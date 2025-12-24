@@ -1,3 +1,4 @@
+TEST
 # ci.maven.tools.updater
 Tool to automate update process of ci.maven.tools artifacts
 
